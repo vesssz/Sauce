@@ -8,3 +8,4 @@ Feature: Add to Cart
 
     When user removes the products from the cart
     Then user sees no products in the cart indicator
+    And user logs out

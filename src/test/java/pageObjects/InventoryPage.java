@@ -3,6 +3,8 @@ package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.Commons;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class InventoryPage {
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
     }
+    private static final Logger log = LoggerFactory.getLogger(InventoryPage.class);
 
     private static final String REMOVE_BTN_XPATH = "//button[text()='Remove']";
     private static final String ADD_TO_CART_BTN_XPATH = "//button[text()='Add to cart']";
@@ -28,11 +31,11 @@ public class InventoryPage {
      * @param productName
      */
     public void addItemToCart(String productName) {
-        System.out.println("addItemToCart - called for item " + productName);
+        log.info("addItemToCart - called for item " + productName);
         WebElement productElem = findProductElementByName(productName);
         WebElement addToCartButton = productElem.findElement(By.xpath(ADD_TO_CART_BTN_XPATH));
         addToCartButton.click();
-        System.out.println("addItemToCart - done");
+        log.info("addItemToCart - done");
     }
 
     /**
@@ -41,11 +44,11 @@ public class InventoryPage {
      * @param productName
      */
     public void removeItemFromCart(String productName) {
-        System.out.println("removeItemFromCart called for item " + productName);
+        log.info("removeItemFromCart called for item " + productName);
         WebElement productElem = findProductElementByName(productName);
         WebElement removeFromCartButton = productElem.findElement(By.xpath(REMOVE_BTN_XPATH));
         removeFromCartButton.click();
-        System.out.println("removeItemFromCart - done");
+        log.info("removeItemFromCart - done");
     }
 
     /**
@@ -56,7 +59,7 @@ public class InventoryPage {
      * @return boolean
      */
     public boolean areProductsPurchased(String... products) {
-        System.out.println("areProductsPurchased - called");
+        log.info("areProductsPurchased - called");
         boolean result = true;
         for (String product : products) {
             if (!isProductPurchased(product)) {
@@ -67,7 +70,7 @@ public class InventoryPage {
         if (result && getCartItemsCount() != products.length) {
             result = false;
         }
-        System.out.println("areProductsPurchased - done");
+        log.info("areProductsPurchased - done");
         return result;
     }
 
@@ -77,7 +80,7 @@ public class InventoryPage {
      * @return boolean
      */
     public boolean isAnyItemPurchased() {
-        System.out.println("isAnyItemPurchased - called...");
+        log.info("isAnyItemPurchased - called...");
         return !driver.findElements(By.xpath(REMOVE_BTN_XPATH)).isEmpty() || getCartItemsCount() != 0;
     }
 
@@ -88,11 +91,11 @@ public class InventoryPage {
      * @return boolean
      */
     public boolean isUserLocatedOnProductsPage(String productsPageExtension) throws IOException {
-        System.out.println("isUserLocatedOnProductsPage - called");
+        log.info("isUserLocatedOnProductsPage - called");
         String baseUrl = Commons.getTestURL();
         String expectedURL = baseUrl + productsPageExtension;
         String currentURL = driver.getCurrentUrl();
-        System.out.println("isUserLocatedOnProductsPage - done");
+        log.info("isUserLocatedOnProductsPage - done");
         return expectedURL.equalsIgnoreCase(currentURL);
     }
 
@@ -100,9 +103,9 @@ public class InventoryPage {
      * Opens Cart Page
      */
     public void openCart() {
-        System.out.println("openCart - called");
+        log.info("openCart - called");
         Commons.click(SHOPPING_CART_LOCATOR);
-        System.out.println("openCart - done");
+        log.info("openCart - done");
     }
 
     /**

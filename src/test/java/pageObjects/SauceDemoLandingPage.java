@@ -2,6 +2,9 @@ package pageObjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import stepDefinitions.SauceDemoLandingPageStepDef;
 import utils.Commons;
 
 import java.io.IOException;
@@ -12,6 +15,7 @@ public class SauceDemoLandingPage {
     public SauceDemoLandingPage(WebDriver driver) {
         this.driver = driver;
     }
+    private static final Logger log = LoggerFactory.getLogger(SauceDemoLandingPageStepDef.class);
 
     private static final By USERNAME_INPUT = By.xpath("//input[@placeholder = 'Username']");
     private static final By PASSWORD_INPUT = By.xpath("//input[@placeholder = 'Password']");
@@ -26,21 +30,21 @@ public class SauceDemoLandingPage {
      * @param password
      */
     public void enterCredentials(String username, String password) {
-        System.out.println("enterCredentials - called");
+        log.info("enterCredentials - called");
         Commons.type(username, USERNAME_INPUT);
         Commons.type(password, PASSWORD_INPUT);
         Commons.click(SUBMIT_BTN);
-        System.out.println("enterCredentials - done");
+        log.info("enterCredentials - done");
     }
 
     /**
      * Logs the user out
      */
     public void logUserOut() {
-        System.out.println("logUserOut - called");
+        log.info("logUserOut - called");
         Commons.click(BURGER_MENU);
         Commons.click(LOGOUT_BTN);
-        System.out.println("logUserOut - done");
+        log.info("logUserOut - done");
     }
 
     /**
@@ -49,7 +53,7 @@ public class SauceDemoLandingPage {
      * @return boolean
      */
     public boolean isUserLoggedOut() throws IOException {
-        System.out.println("isUserLoggedOut - called...");
+        log.info("isUserLoggedOut - called...");
         String baseUrl = Commons.getTestURL();
         String currentURL = driver.getCurrentUrl();
         boolean isLoggedOutURL = currentURL.equalsIgnoreCase(baseUrl);

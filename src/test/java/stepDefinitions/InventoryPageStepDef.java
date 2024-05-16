@@ -2,6 +2,8 @@ package stepDefinitions;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pageObjects.CartPage;
 import pageObjects.InventoryPage;
@@ -14,6 +16,7 @@ public class InventoryPageStepDef {
     TestSetUp testSetUp;
     InventoryPage inventoryPage;
     CartPage cartPage;
+    private static final Logger log = LoggerFactory.getLogger(InventoryPageStepDef.class);
 
     public InventoryPageStepDef(TestSetUp testSetUp) {
         this.testSetUp = testSetUp;
@@ -24,7 +27,7 @@ public class InventoryPageStepDef {
 
     @When("user adds product {string} and {string} to the cart")
     public void user_adds_product_product_and_product2_to_the_cart(String product, String product1) {
-        System.out.println("Adding items to cart");
+        log.info("Adding items to cart");
         this.product = product;
         this.product1 = product1;
         inventoryPage.addItemToCart(product);
@@ -33,20 +36,20 @@ public class InventoryPageStepDef {
 
     @Then("user sees two products in the cart indicator")
     public void user_sees_two_products_in_the_cart_indicator() {
-        System.out.println("Validating if items in cart");
+        log.info("Validating if items in cart");
         Assert.assertTrue(inventoryPage.areProductsPurchased(product, product1));
     }
 
     @When("user removes the products from the cart")
     public void user_removes_the_products_from_the_cart() {
-        System.out.println("Removing items from cart");
+        log.info("Removing items from cart");
         inventoryPage.removeItemFromCart(product);
         inventoryPage.removeItemFromCart(product1);
     }
 
     @Then("user sees no products in the cart indicator")
     public void user_sees_no_products_in_the_cart_indicator() {
-        System.out.println("Verifying no items in cart");
+        log.info("Verifying no items in cart");
         Assert.assertFalse(inventoryPage.isAnyItemPurchased());
     }
 

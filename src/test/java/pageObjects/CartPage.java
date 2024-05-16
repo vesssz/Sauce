@@ -3,6 +3,8 @@ package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.Commons;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class CartPage {
     public CartPage(WebDriver driver) {
         this.driver = driver;
     }
+    private static final Logger log = LoggerFactory.getLogger(CartPage.class);
 
     private static final By CHECKOUT_BTN = By.xpath("//button[@name='checkout']");
     private static final By CONTINUE_BUTTON = By.xpath("//input[@name='continue']");
@@ -32,18 +35,18 @@ public class CartPage {
      * Clicks button Checkout on Cart Order page
      */
     public void clickCheckout() {
-        System.out.println("clickCheckout - called");
+        log.info("clickCheckout - called");
         Commons.click(CHECKOUT_BTN);
-        System.out.println("clickCheckout - done");
+        log.info("clickCheckout - done");
     }
 
     /**
      * Clicks button Finish on Cart Order page to complete order
      */
     public void clickFinishOrder() {
-        System.out.println("clickFinishOrder - called");
+        log.info("clickFinishOrder - called");
         Commons.click(FINISH_ORDER_BTN);
-        System.out.println("clickFinishOrder - done");
+        log.info("clickFinishOrder - done");
     }
 
     /**
@@ -52,7 +55,7 @@ public class CartPage {
      * @return boolean
      */
     public boolean isOrderSent() {
-        System.out.println("isOrderSent - called...");
+        log.info("isOrderSent - called...");
         return Commons.isElementDisplayed(COMPLETED_ORDER_CONFIRMATION);
     }
 
@@ -64,20 +67,20 @@ public class CartPage {
      * @param postCode
      */
     public void fillInPurchaseForm(String firstName, String lastName, String postCode) {
-        System.out.println("clickCheckout - called");
+        log.info("clickCheckout - called");
         Commons.type(firstName, FIRSTNAME_INPUT);
         Commons.type(lastName, LASTNAME_INPUT);
         Commons.type(postCode, POSTCODE_INPUT);
-        System.out.println("clickCheckout - done");
+        log.info("clickCheckout - done");
     }
 
     /**
      * Submits the address form upon order
      */
     public void submitPurchaseForm() {
-        System.out.println("submitAddressForm - called");
+        log.info("submitAddressForm - called");
         Commons.click(CONTINUE_BUTTON);
-        System.out.println("submitAddressForm - done");
+        log.info("submitAddressForm - done");
     }
 
     /**
@@ -88,7 +91,7 @@ public class CartPage {
      * @return boolean
      */
     public boolean isProductInCart(String product) {
-        System.out.println("isProductInCart - called for product ..." + product);
+        log.info("isProductInCart - called for product ..." + product);
         String productXpath = getProductXPath(product);
         if (driver.findElement(By.xpath(productXpath)).isDisplayed()) {
             return true;
@@ -102,7 +105,7 @@ public class CartPage {
      * @return boolean
      */
     public boolean isTotalPriceCorrect() {
-        System.out.println("isTotalPriceCorrect - called...");
+        log.info("isTotalPriceCorrect - called...");
         if (getTotalItemsPrice() == (getTotalDue())) {
             return true;
         }
@@ -125,7 +128,7 @@ public class CartPage {
      * @return boolean
      */
     public boolean purchaseNotPlaced() {
-        System.out.println("isProductInCart - called...");
+        log.info("isProductInCart - called...");
         boolean isErrorButtonPresent = Commons.isElementDisplayed(ERROR_BUTTON);
         boolean isFormFilledIn = inputFieldsEmpty(FIRSTNAME_INPUT, LASTNAME_INPUT, POSTCODE_INPUT);
         return isErrorButtonPresent && isFormFilledIn;
@@ -146,7 +149,7 @@ public class CartPage {
      * @return boolean
      */
     private boolean inputFieldsEmpty(By... locators) {
-        System.out.println("inputFieldsEmpty - called...");
+        log.info("inputFieldsEmpty - called...");
         boolean allEmpty = true;
         for (By locator : locators) {
             String value = Commons.find(locator).getAttribute("value");

@@ -3,6 +3,8 @@ package utils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.Properties;
 
 public class TestBase {
     public WebDriver driver;
+    private static final Logger log = LoggerFactory.getLogger(TestBase.class);
 
     public WebDriver WebDriverManager() throws IOException {
         FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir") + "//src//test//resources//global.properties");
@@ -27,7 +30,7 @@ public class TestBase {
             } else if (properties.getProperty("browser").equalsIgnoreCase("firefox")) {
                 //TODO Implementation for FireFox Geckodriver
             } else {
-                System.out.println("Unknown browser");
+                log.error("Unknown browser");
             }
             driver.get(url);
         }
