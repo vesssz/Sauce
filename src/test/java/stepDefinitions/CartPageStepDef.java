@@ -18,7 +18,7 @@ public class CartPageStepDef {
     }
 
     @When("purchased products {string} and {string} are added in cart")
-    public void purchased_products_and_are_added_in_cart(String product, String product1) {
+    public void purchased_products_and_are_added_in_cart(String product, String product1){
         Assert.assertTrue(cartPage.isProductInCart(product) && cartPage.isProductInCart(product1));
     }
 

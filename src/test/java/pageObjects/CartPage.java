@@ -93,7 +93,7 @@ public class CartPage {
     public boolean isProductInCart(String product) {
         log.info("isProductInCart - called for product ..." + product);
         String productXpath = getProductXPath(product);
-        if (driver.findElement(By.xpath(productXpath)).isDisplayed()) {
+        if (Commons.isElementDisplayed(By.xpath(productXpath))) {
             return true;
         }
         return false;

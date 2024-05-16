@@ -19,8 +19,8 @@ public class InventoryPage {
     }
     private static final Logger log = LoggerFactory.getLogger(InventoryPage.class);
 
-    private static final String REMOVE_BTN_XPATH = "//button[text()='Remove']";
-    private static final String ADD_TO_CART_BTN_XPATH = "//button[text()='Add to cart']";
+    private static final String REMOVE_BTN_XPATH = ".//button[text()='Remove']";
+    private static final String ADD_TO_CART_BTN_XPATH = ".//button[text()='Add to cart']";
     private static final String CART_ITEMS_BADGE_XPATH = "//span[@class ='shopping_cart_badge' ]";
     private static final By CART_ITEMS_BADGE_LOCATOR = By.xpath(CART_ITEMS_BADGE_XPATH);
     private static final By SHOPPING_CART_LOCATOR = By.xpath("//a[@class='shopping_cart_link']");

@@ -26,7 +26,7 @@ public class InventoryPageStepDef {
     }
 
     @When("user adds product {string} and {string} to the cart")
-    public void user_adds_product_product_and_product2_to_the_cart(String product, String product1) {
+    public void user_adds_product_product_and_product2_to_the_cart(String product, String product1){
         log.info("Adding items to cart");
         this.product = product;
         this.product1 = product1;
