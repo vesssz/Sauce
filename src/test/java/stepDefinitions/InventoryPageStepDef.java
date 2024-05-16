@@ -23,7 +23,7 @@ public class InventoryPageStepDef {
     }
 
     @When("user adds product {string} and {string} to the cart")
-    public void user_adds_product_product_and_product2_to_the_cart(String product, String product1){
+    public void user_adds_product_product_and_product2_to_the_cart(String product, String product1) {
         System.out.println("Adding items to cart");
         this.product = product;
         this.product1 = product1;
@@ -49,8 +49,9 @@ public class InventoryPageStepDef {
         System.out.println("Verifying no items in cart");
         Assert.assertFalse(inventoryPage.isAnyItemPurchased());
     }
+
     @When("user opens Cart")
-    public void user_opens_cart(){
+    public void user_opens_cart() {
         inventoryPage.openCart();
     }
 }

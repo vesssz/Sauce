@@ -2,9 +2,7 @@ package pageObjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import utils.Commons;
-import utils.TestBase;
 
 import java.io.IOException;
 
@@ -23,6 +21,7 @@ public class SauceDemoLandingPage {
 
     /**
      * Enters credentials for specific user in the login form
+     *
      * @param username
      * @param password
      */
@@ -33,13 +32,26 @@ public class SauceDemoLandingPage {
         Commons.click(SUBMIT_BTN);
         System.out.println("enterCredentials - done");
     }
-    public void logUserOut(){
+
+    /**
+     * Logs the user out
+     */
+    public void logUserOut() {
+        System.out.println("logUserOut - called");
         Commons.click(BURGER_MENU);
         Commons.click(LOGOUT_BTN);
+        System.out.println("logUserOut - done");
     }
+
+    /**
+     * Verifies if user is logged out by checking url and presence of login form
+     *
+     * @return boolean
+     */
     public boolean isUserLoggedOut() throws IOException {
+        System.out.println("isUserLoggedOut - called...");
         String baseUrl = Commons.getTestURL();
-        String currentURL =driver.getCurrentUrl();
+        String currentURL = driver.getCurrentUrl();
         boolean isLoggedOutURL = currentURL.equalsIgnoreCase(baseUrl);
         boolean isLoginFormDisplayed = Commons.isElementDisplayed(USERNAME_INPUT, PASSWORD_INPUT, SUBMIT_BTN);
         return isLoggedOutURL && isLoginFormDisplayed;

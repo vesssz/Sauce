@@ -4,7 +4,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageObjects.CartPage;
-import pageObjects.InventoryPage;
 import utils.TestSetUp;
 
 public class CartPageStepDef {
@@ -17,6 +16,7 @@ public class CartPageStepDef {
         this.testSetUp = testSetUp;
         this.cartPage = testSetUp.pageFactory.getCartPage();
     }
+
     @When("purchased products {string} and {string} are added in cart")
     public void purchased_products_and_are_added_in_cart(String product, String product1) {
         Assert.assertTrue(cartPage.isProductInCart(product) && cartPage.isProductInCart(product1));
@@ -27,12 +27,10 @@ public class CartPageStepDef {
         cartPage.clickCheckout();
         cartPage.submitAddressForm();
     }
+
     @Then("purchase is not completed and errors are displayed")
     public void purchase_is_not_completed_and_errors_are_displayed() {
-        //TODO Implement
+        Assert.assertTrue(cartPage.purchaseNotPlaced());
     }
-
-
-
 
 }
