@@ -2,7 +2,10 @@ package pageObjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import utils.Commons;
+
+import java.util.List;
 
 
 public class CartPage {
@@ -19,6 +22,11 @@ public class CartPage {
     private static final By LASTNAME_INPUT = By.xpath("//input[@placeholder='Last Name']");
     private static final By POSTCODE_INPUT = By.xpath("//input[@placeholder='Zip/Postal Code']");
     private static final By ERROR_BUTTON = By.xpath("//button[@class='error-button']");
+    private static final By FINISH_ORDER_BTN = By.xpath("//button[@name='finish']");
+    private static final By CANCEL_BUTTON = By.xpath("//button[@name='cancel']");
+    private static final By COMPLETED_ORDER_CONFIRMATION = By.xpath("//h2[text()='Thank you for your order!']");
+    private static final By INVENTORY_PRICE_LOCATOR = By.xpath("//div[@class = 'inventory_item_price']");
+    private static final By TOTAL_PRICE = By.xpath("//div[@class = 'summary_subtotal_label']");
 
     /**
      * Clicks button Checkout on Cart Order page
@@ -30,11 +38,44 @@ public class CartPage {
     }
 
     /**
+     * Clicks button Finish on Cart Order page to complete order
+     */
+    public void clickFinishOrder() {
+        System.out.println("clickFinishOrder - called");
+        Commons.click(FINISH_ORDER_BTN);
+        System.out.println("clickFinishOrder - done");
+    }
+
+    /**
+     * Verifies if text for completed order is displayed
+     *
+     * @return boolean
+     */
+    public boolean isOrderSent() {
+        System.out.println("isOrderSent - called...");
+        return Commons.isElementDisplayed(COMPLETED_ORDER_CONFIRMATION);
+    }
+
+    /**
+     * Fills in order details in Cart Order page
+     *
+     * @param firstName
+     * @param lastName
+     * @param postCode
+     */
+    public void fillInPurchaseForm(String firstName, String lastName, String postCode) {
+        System.out.println("clickCheckout - called");
+        Commons.type(firstName, FIRSTNAME_INPUT);
+        Commons.type(lastName, LASTNAME_INPUT);
+        Commons.type(postCode, POSTCODE_INPUT);
+        System.out.println("clickCheckout - done");
+    }
+
+    /**
      * Submits the address form upon order
      */
-    public void submitAddressForm() {
+    public void submitPurchaseForm() {
         System.out.println("submitAddressForm - called");
-        //TODO Username, name, ZIP can be added if needed
         Commons.click(CONTINUE_BUTTON);
         System.out.println("submitAddressForm - done");
     }
@@ -47,12 +88,24 @@ public class CartPage {
      * @return boolean
      */
     public boolean isProductInCart(String product) {
-        System.out.println("isProductInCart - called...");
+        System.out.println("isProductInCart - called for product ..." + product);
         String productXpath = getProductXPath(product);
         if (driver.findElement(By.xpath(productXpath)).isDisplayed()) {
             return true;
         }
-        ;
+        return false;
+    }
+
+    /**
+     * Checks if the total of prices of the items in cart corresponds to the total due without tax
+     *
+     * @return boolean
+     */
+    public boolean isTotalPriceCorrect() {
+        System.out.println("isTotalPriceCorrect - called...");
+        if (getTotalItemsPrice() == (getTotalDue())) {
+            return true;
+        }
         return false;
     }
 
@@ -77,6 +130,14 @@ public class CartPage {
         boolean isFormFilledIn = inputFieldsEmpty(FIRSTNAME_INPUT, LASTNAME_INPUT, POSTCODE_INPUT);
         return isErrorButtonPresent && isFormFilledIn;
     }
+    /**
+     * Verifies Finish order button and Cancel button are displayed
+     *
+     * @return boolean
+     */
+    public boolean areOrderButtonsDisplayed(){
+        return Commons.isElementDisplayed(FINISH_ORDER_BTN) && Commons.isElementDisplayed(CANCEL_BUTTON);
+    }
 
     /**
      * Verifies input field is empty for given locator
@@ -95,6 +156,32 @@ public class CartPage {
             }
         }
         return allEmpty;
+    }
+
+    /**
+     * Gets the value of total due, mentioned at the bottom of page
+     *
+     * @return double
+     */
+    private double getTotalDue() {
+        String priceText = driver.findElement(TOTAL_PRICE).getText();
+        return Double.parseDouble(priceText.replaceAll("[^0-9.]", ""));
+    }
+
+    /**
+     * Checks separate item`s prices and returns the total amount of the order
+     *
+     * @return double
+     */
+    private double getTotalItemsPrice() {
+        List<WebElement> elementList = driver.findElements(INVENTORY_PRICE_LOCATOR);
+        double totalPrice = 0;
+        for (WebElement element : elementList) {
+            String elementText = element.getText();
+            double value = Double.parseDouble(elementText.replaceAll("[^0-9.]", ""));
+            totalPrice += value;
+        }
+        return totalPrice;
     }
 
 }
