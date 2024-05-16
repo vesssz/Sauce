@@ -16,10 +16,12 @@ public class PageFactory {
         sauceDemoLandingPage = new SauceDemoLandingPage(driver);
         return sauceDemoLandingPage;
     }
+
     public InventoryPage getInventoryPage() {
         inventoryPage = new InventoryPage(driver);
         return inventoryPage;
     }
+
     public CartPage getCartPage() {
         cartPage = new CartPage(driver);
         return cartPage;

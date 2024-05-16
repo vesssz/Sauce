@@ -20,7 +20,6 @@ public class SauceDemoLandingPageStepDef {
         this.testSetUp = testSetUp;
         this.sauceDemoLandingPage = testSetUp.pageFactory.getSauceDemoLandingPage();
         this.inventoryPage = testSetUp.pageFactory.getInventoryPage();
-
     }
 
     @Given("user is on landing page")
@@ -34,6 +33,7 @@ public class SauceDemoLandingPageStepDef {
         sauceDemoLandingPage.enterCredentials(username, password);
         Assert.assertTrue(inventoryPage.isUserLocatedOnProductsPage("inventory.html"));
     }
+
     @Then("user logs out")
     public void user_logs_out() throws IOException {
         sauceDemoLandingPage.logUserOut();

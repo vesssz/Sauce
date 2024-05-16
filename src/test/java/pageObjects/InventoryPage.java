@@ -21,6 +21,7 @@ public class InventoryPage {
     private static final String CART_ITEMS_BADGE_XPATH = "//span[@class ='shopping_cart_badge' ]";
     private static final By CART_ITEMS_BADGE_LOCATOR = By.xpath(CART_ITEMS_BADGE_XPATH);
     private static final By SHOPPING_CART_LOCATOR = By.xpath("//a[@class='shopping_cart_link']");
+
     /**
      * Searches for product in the page by String and adds it to cart
      *
@@ -48,7 +49,7 @@ public class InventoryPage {
     }
 
     /**
-     * Searches for 2 products in the page by String and verifies
+     * Searches for products in the page by String and verifies
      * if Add to cart button is clicked and if cart locator count equal to purchased items
      *
      * @param products
@@ -69,30 +70,39 @@ public class InventoryPage {
         System.out.println("areProductsPurchased - done");
         return result;
     }
-    public boolean isAnyItemPurchased() {
 
-        if (driver.findElements(By.xpath(REMOVE_BTN_XPATH)).isEmpty() && getCartItemsCount() == 0) {
-            return false;
-        } else {
-            return true;
-        }
+    /**
+     * Searches for button REMOVE is present on page and verifies items in Cart are zero
+     *
+     * @return boolean
+     */
+    public boolean isAnyItemPurchased() {
+        System.out.println("isAnyItemPurchased - called...");
+        return !driver.findElements(By.xpath(REMOVE_BTN_XPATH)).isEmpty() || getCartItemsCount() != 0;
     }
 
     /**
-     * Gets the current URL and checks if it is the Products page URL
+     * Gets the current URL and checks if it is corresponding to Products page URL
      *
      * @param productsPageExtension
      * @return boolean
      */
     public boolean isUserLocatedOnProductsPage(String productsPageExtension) throws IOException {
+        System.out.println("isUserLocatedOnProductsPage - called");
         String baseUrl = Commons.getTestURL();
         String expectedURL = baseUrl + productsPageExtension;
         String currentURL = driver.getCurrentUrl();
-        System.out.println(expectedURL);
+        System.out.println("isUserLocatedOnProductsPage - done");
         return expectedURL.equalsIgnoreCase(currentURL);
     }
-    public void openCart(){
+
+    /**
+     * Opens Cart Page
+     */
+    public void openCart() {
+        System.out.println("openCart - called");
         Commons.click(SHOPPING_CART_LOCATOR);
+        System.out.println("openCart - done");
     }
 
     /**
@@ -108,6 +118,10 @@ public class InventoryPage {
         }
         return false;
     }
+    /**
+     *  Returns the count of the purchased items shown on the Cart badge
+     * @return int
+     */
     private int getCartItemsCount() {
         if (driver.findElements(By.xpath(CART_ITEMS_BADGE_XPATH)).isEmpty()) {
             return 0;
@@ -135,7 +149,6 @@ public class InventoryPage {
         }
         throw new NoSuchElementException("Item with name " + productName + " was not found on the page");
     }
-
 
 }
 
