@@ -96,7 +96,7 @@ public class InventoryPage {
         String expectedURL = baseUrl + productsPageExtension;
         String currentURL = driver.getCurrentUrl();
         log.info("isUserLocatedOnProductsPage - done");
-        return expectedURL.equalsIgnoreCase(currentURL);
+        return expectedURL.equals(currentURL);
     }
 
     /**

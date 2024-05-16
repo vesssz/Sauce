@@ -56,7 +56,7 @@ public class SauceDemoLandingPage {
         log.info("isUserLoggedOut - called...");
         String baseUrl = Commons.getTestURL();
         String currentURL = driver.getCurrentUrl();
-        boolean isLoggedOutURL = currentURL.equalsIgnoreCase(baseUrl);
+        boolean isLoggedOutURL = currentURL.equals(baseUrl);
         boolean isLoginFormDisplayed = Commons.isElementDisplayed(USERNAME_INPUT, PASSWORD_INPUT, SUBMIT_BTN);
         return isLoggedOutURL && isLoginFormDisplayed;
 
